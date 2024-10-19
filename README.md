@@ -15,7 +15,7 @@ A simple Jupyter Kernel for interacting with the Autodesk Maya command line usin
 jupyter kernelspec install /path/to/mayaKernel
 ```
 
-打开maya，输入python指令
+打开maya，输入python指令，也许你可以放到userSetup.py中
 
 ```python
 import maya.cmds as cmds
