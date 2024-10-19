@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "python",
+    "R:\\code\\PycharmProjects\\maya_xgen\\mayaKernel\\mayaLogKernel.py",
+    "-f",
+    "{connection_file}"
+  ],
+  "display_name": "maya",
+  "language": "python"
+}
