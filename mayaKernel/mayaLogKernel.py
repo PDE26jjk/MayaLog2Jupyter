@@ -101,17 +101,19 @@ class MayaKernel(Kernel):
     }
     debugger = True,
     banner = "Maya kernel"
-    maya_port = -1
     log_path = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         config_dict = get_maya_config()
+        self.maya_port = -1
         self.log_listener = None
         if "default_port" in config_dict:
             self.setPort(int(config_dict['default_port']))
 
     def setPort(self, port):
+        if port == -1:
+            return
         self.maya_port = port
         self.log_path = self.setLogPath()
         if self.log_path is not None:
@@ -158,6 +160,8 @@ class MayaKernel(Kernel):
                  'payload': [],
                  'user_expressions': {},
                  }
+        if self.log_listener is None and self.maya_port != -1:
+            self.setPort(self.maya_port)
 
         if not code.strip():
             return OkRet  # Empty instruction returns directly
@@ -253,7 +257,7 @@ def sendCode2Maya(code, port=-1, pythonCode=True):
         client.connect((host, port))
         message = code
         if pythonCode:
-            message = re.sub(r"#.*?(\n|$)", '\n', message)  # 删除注释
+            # message = re.sub(r"#.*?(\n|$)", '\n', message)  # 删除注释 有bug，会吧字符串内的#删掉
             pattern = r'(".*?\\.*?"|\'.*?\\.*?\')'  # 引号内的\转码
 
             def replace_function(match):
